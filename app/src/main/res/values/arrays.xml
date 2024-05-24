@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fwItems">
+        <item>7.00 / 7.01 / 7.02</item>
+        <item>7.50 / 7.51 / 7.55</item>
+        <item>8.00 / 8.01 / 8.03</item>
+        <item>8.50 / 8.52</item>
+        <item>9.00</item>
+        <item>9.03 / 9.04</item>
+        <item>9.50 / 9.51 / 9.60</item>
+        <item>10.00 / 10.01</item>
+        <item>10.50 / 10.70 / 10.71</item>
+        <item>11.00</item>
+    </string-array>
+    <string-array name="fwValues">
+        <item>700</item>
+        <item>750</item>
+        <item>800</item>
+        <item>850</item>
+        <item>900</item>
+        <item>903</item>
+        <item>950</item>
+        <item>1000</item>
+        <item>1050</item>
+        <item>1100</item>
+    </string-array>
+</resources>
+<!--
+<item name="700">7.00</item>
+<item name="701">7.01</item>
+<item name="702">7.02</item>
+<item name="750">7.50</item>
+<item name="751">7.51</item>
+<item name="755">7.55</item>
+<item name="800">8.00</item>
+<item name="801">8.01</item>
+<item name="803">8.03</item>
+<item name="850">8.50</item>
+<item name="852">8.52</item>
+<item name="900">9.00</item>
+<item name="903">9.03</item>
+<item name="904">9.04</item>
+<item name="950">9.50</item>
+<item name="951">9.51</item>
+<item name="960">9.60</item>
+<item name="1000">10.00</item>
+<item name="1001">10.01</item>
+<item name="1050">10.50</item>
+<item name="1070">10.70</item>
+<item name="1071">10.71</item>
+<item name="1100">11.00</item>
+-->
