@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        //System.loadLibrary("");
+        //System.loadLibrary("");
         settings=this.getPreferences(Context.MODE_PRIVATE);
         editset=settings.edit();
         selFw=settings.getInt("FW",0);
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         spnFW.setAdapter(adpFW);
         spnFW.setSelection(selFw);
         spnFW.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> adapterView,View view,int i,long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 editset.putInt("FW",i);
                 editset.commit();
             }
@@ -76,21 +78,27 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     ae.cancel(true);
                     p.destroy();
-                    txtOut.setText("");
+                    txtOut.setText("-----[DroidPPPwn 1.1 by deviato]-----");
                     main.setBackgroundColor(Color.WHITE);
                 }
             }
         });
     }
-
     private class AsyncExec extends AsyncTask<String,Void,String> {
         @Override
         protected String doInBackground(String... strings) {
             String line="";
             String[] fws=getResources().getStringArray(R.array.fwValues);
             String fw=fws[spnFW.getSelectedItemPosition()];
+            String path=getApplicationInfo().nativeLibraryDir;
+            if(!path.endsWith("/")) path+="/";
+            String stage1=path+"stage1."+fw;
+            String stage2=path+"stage2."+fw;
+            //Prefer custom stage2.bin from /sdcard/ if found
+            File file=new File("/sdcard/stage2.bin");
+            if(file.exists()) stage2="/sdcard/stage2.bin";
+
             try {
-                String path=getApplicationInfo().nativeLibraryDir+"/";
                 //Log.d("Droid","Attempting to run: "+path+"pppwn");
                 p=Runtime.getRuntime().exec("su");
                 //p=Runtime.getRuntime().exec("su -c ping www.google.it");
@@ -98,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 os.writeBytes("/system/bin/ifconfig eth0 10.0.0.1 up 2>&1\n");
                 os.flush();
                 os.writeBytes("export PATH=$PATH:"+path+"\nLD_LIBRARY_PATH=$LD_LIBRARY_PATH:"+path+" "); //LD_PRELOAD="+path+"libpcap.so.1 ");
-                os.writeBytes("pppwn -i eth0 --fw "+fw+" --stage1 "+path+"stage1."+fw+" --stage2 "+path+"stage2."+fw+" -a 2>&1\nexit\n");
+                os.writeBytes("pppwn -i eth0 --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+" -a 2>&1\nexit\n");
                 os.flush();
                 BufferedReader in=new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while((line=in.readLine())!=null) {
@@ -117,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     txtOut.append(str+EOL);
-                    Log.d("Droid",str);
+                    //Log.d("Droid",str);
                     if(str.equals("[+] Done!")) main.setBackgroundColor(Color.parseColor("#55ff55"));
                 }
             });
