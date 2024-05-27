@@ -11,7 +11,7 @@ An android frontend that uses [PPPwn_cpp](https://github.com/xfangfang/PPPwn_cpp
 - An OTG USB Cable or Adapter
 - An USB Ethernet Adapter
 - An ethernet cable
-  Alternatively, if your device has an embedded ethernet port, you can use that, as in the case of Android TV boxes.
+Alternatively, if your device has an embedded ethernet port, you can use that, as in the case of Android TV boxes.
 
 ## Usage
 - Download the latest release from this repository and install to your android phone.
