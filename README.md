@@ -4,7 +4,7 @@ An android frontend that uses [PPPwn_cpp](https://github.com/xfangfang/PPPwn_cpp
 - It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android, and stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
 - For firmwares 9.00, 10.00, 10.01, 11.00 `stage2.bin` is built from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can now load custom payloads like GoldHEN.
 - For all the other firmwares `stage2.bin` is built from the original code of [PPPwn](https://github.com/TheOfficialFloW/PPPwn), so at the moment it's only a proof-of-concept that prints `PPPwned` on the PS4.
-- You can now use your own `stage2.bin` placing it to your sdcard root folder through `push stage2.bin /sdcard/`
+- You can now use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
 ## Requirements
 - A recent `rooted` Android phone that supports OTG
