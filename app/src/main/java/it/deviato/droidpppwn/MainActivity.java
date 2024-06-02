@@ -275,8 +275,8 @@ public class MainActivity extends AppCompatActivity {
                 DataOutputStream os=new DataOutputStream(p.getOutputStream());
                 os.writeBytes("/system/bin/ifconfig eth0 10.0.0.1 up 2>&1\n");
                 os.flush();
-                os.writeBytes("export PATH=$PATH:"+path+"\nLD_LIBRARY_PATH=$LD_LIBRARY_PATH:"+path+" "); //LD_PRELOAD="+path+"libpcap.so.1 ");
-                os.writeBytes("pppwn -i "+selIface+" --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+" -a 2>&1\nexit\n");
+                //os.writeBytes("export PATH=$PATH:"+path+"\nLD_LIBRARY_PATH=$LD_LIBRARY_PATH:"+path+" "); //LD_PRELOAD="+path+"libpcap.so.1 ");
+                os.writeBytes(path+"pppwn -i "+selIface+" --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+" -a 2>&1\nexit\n");
                 os.flush();
                 BufferedReader in=new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while((line=in.readLine())!=null) {
