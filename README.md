@@ -25,10 +25,14 @@ Alternatively, if your device has an embedded ethernet port, you can use that, a
 Example run here: [https://youtu.be/SQT7AgTtrDY](https://youtu.be/SQT7AgTtrDY)
 
 ## Known Bugs
-On some old armv7 devices when installing apk the content of lib folder isn't copied to the internal app folder. You can solve it by extracting the files from pppwn.jar (choosing between lib/armeabi-v7a/* and lib/arm64-v8a/*, depending on your architecture) and pushing them manually to `/data/data/it.deviato.droidpppwn/lib/` remembering to give execute permissions to `pppwn` with `chmod 755 pppwn`
-I will try to fix this on the next release, moving all assets in /data/local/tmp
+All previous bugs fixed
 
 ## Changelog
+### 1.2
+- Added support for Android x86 and fixed 32bit arm-v7a and 64bit arm-v8a builds (no more bus_error)
+- Recompiled all binaries using android NDK instead of Termux environment (cleaner result)
+- Added the option to search and select the preferred network interface
+- Fixed the issue of binaries not being installed on devices with older Android versions
 ### 1.1
 - Added support for 32bit arm-v7a with separated binary of pppwn
 - Refactored the whole project lowering minSdk to version 19, so now it can run on Android KitKat 4.4+

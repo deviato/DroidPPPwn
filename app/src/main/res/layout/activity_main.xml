@@ -8,17 +8,6 @@
     android:keepScreenOn="true"
     tools:context=".MainActivity">
 
-    <Spinner
-        android:id="@+id/spnFirmware"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtFirmware" />
-
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="0dp"
@@ -36,50 +25,107 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Switch
-        android:id="@+id/btnStart"
+    <TextView
+        android:id="@+id/txtArch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:elegantTextHeight="false"
-        android:gravity="center"
-        android:switchMinWidth="80dp"
-        android:switchPadding="15dp"
-        android:text="Start"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="monospace"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtTitle"
+        app:layout_constraintEnd_toEndOf="@+id/txtTitle" />
+
+    <TextView
+        android:id="@+id/txtInterface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="Network Interface"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spnFirmware" />
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
     <TextView
         android:id="@+id/txtFirmware"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:text="PS4 Firmware"
+        android:textSize="18dp"
+        app:layout_constraintStart_toEndOf="@+id/txtInterface"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+
+    <Button
+        android:id="@+id/btnInterface"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:backgroundTint="#D7DBDC"
+        app:cornerRadius="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInterface" />
+
+    <Spinner
+        android:id="@+id/spnFirmware"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:padding="4dp"
+        app:layout_constraintStart_toEndOf="@+id/txtInterface"
+        app:layout_constraintTop_toBottomOf="@+id/txtFirmware" />
+
+    <Switch
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:elegantTextHeight="false"
         android:gravity="center"
-        android:text="Select your Firmware"
-        android:textSize="20sp"
-        app:flow_horizontalAlign="center"
+        android:scaleX="1.8"
+        android:scaleY="1.8"
+        android:switchMinWidth="70dp"
+        android:switchPadding="5dp"
+        android:text="Start"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/spnFirmware" />
 
     <TextView
         android:id="@+id/txtOutput"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp"
         android:background="#333"
         android:gravity="bottom"
         android:padding="10dp"
         android:scrollbars="vertical"
-        android:text="-----[DroidPPPwn 1.1 by deviato]-----"
+        android:text="-----[DroidPPPwn 1.2 by deviato]-----\n"
         android:textColor="#0a9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnStart" />
+
+    <ListView
+        android:id="@+id/lvIface"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:background="#99a"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/btnInterface"
+        app:layout_constraintTop_toTopOf="@+id/btnInterface" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
