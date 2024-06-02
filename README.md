@@ -7,7 +7,7 @@ An android frontend that uses [PPPwn_cpp](https://github.com/xfangfang/PPPwn_cpp
 - You can now use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
 ## Requirements
-- A recent `rooted` Android phone that supports OTG
+- An Android device with **`root access`**, minimum version Android KitKat 4.4
 - An OTG USB Cable or Adapter
 - An USB Ethernet Adapter
 - An ethernet cable
