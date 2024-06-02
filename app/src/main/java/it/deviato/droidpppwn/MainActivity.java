@@ -184,13 +184,13 @@ public class MainActivity extends AppCompatActivity {
         if(!f.exists()) {
             //Check if system have unzip or busybox
             String unzip=runCmd("which unzip",false).trim();
-            if(unzip.isEmpty()) {
-                unzip=runCmd("which busybox", false).trim();
+            if(unzip.isEmpty()||unzip.contains("not found")) {
+                unzip=runCmd("busybox", false).trim();
                 if(unzip.isEmpty()) {
                     Log.d("Droid","Error: no unzip found");
                     txtOut.append("Unzip not found. Please install busybox first!"+EOL);
                 }
-                else unzip+=" unzip";
+                else unzip="busybox unzip";
             }
             Log.d("Droid","UnzipTool: "+unzip);
             if(!unzip.isEmpty()) {
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 else if (arch.startsWith("armv8")||arch.startsWith("aarch64")) fakelib="libv8a.so";
                 else fakelib="libx86.so";
                 Log.d("Droid","CMD: "+unzip+" -o "+path+fakelib+" -d "+path);
-                String res=runCmd(unzip+" -o "+path+fakelib+" -d "+path,true);
+                String res=runCmd(unzip+" -o "+path+fakelib+" -d "+path+"\nchmod 755 "+path+"pppwn",true);
                 Log.d("Droid",res);
                 if(res.contains("couldn't")) {
                     txtOut.append("Binary installation failed!"+EOL);
