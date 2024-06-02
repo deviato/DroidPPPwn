@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
-        android:text="Network Interface"
+        android:text="Net Interface"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
@@ -62,7 +62,7 @@
 
     <Button
         android:id="@+id/btnInterface"
-        android:layout_width="145dp"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
@@ -75,7 +75,7 @@
 
     <Spinner
         android:id="@+id/spnFirmware"
-        android:layout_width="210dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
