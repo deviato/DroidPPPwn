@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private AsyncExec ae;
     private boolean isRoot;
     private String arch;
-    private final String path="/data/data/it.deviato.droidpppwn/lib/";
+    private String path="/data/data/it.deviato.droidpppwn/lib/";
     protected SharedPreferences settings;
     protected SharedPreferences.Editor editset;
     protected int selFw;
@@ -62,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         isRoot=!runCmd("which su",false).isEmpty();
-        //arch=runCmd("uname -m",false).trim();
-        //if(arch.contains("not found")) arch="armv7l";
+        arch=runCmd("getprop ro.product.cpu.abi",false).trim();
         final TextView txtArch=findViewById(R.id.txtArch);
-        arch=System.getProperty("os.arch");
         txtArch.setText("["+arch+"]");
-        Log.d("Droid",arch);
+        //Log.d("Droid","CPUABI:"+Build.CPU_ABI);
+        //Log.d("Droid","PROPABI:"+arch);
+        //Log.d("Droid", "OSARCH:"+System.getProperty("os.arch"));
         settings=this.getPreferences(Context.MODE_PRIVATE);
         editset=settings.edit();
         selFw=settings.getInt("FW",0);
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     ae.cancel(true);
                     p.destroy();
-                    txtOut.setText("-----[DroidPPPwn 1.2 by deviato]-----"+EOL);
+                    txtOut.setText("-----[DroidPPPwn 1.2.1 by deviato]-----"+EOL);
                     main.setBackgroundColor(Color.WHITE);
                 }
             }
@@ -161,13 +162,13 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     checkInstall();
                 }
-            }, 1000);
+            }, 500);
         }
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(p!=null) p.destroy();
+        if(p!=null)  p.destroy();
     }
 
     private boolean checkSuMsg() {
@@ -195,8 +196,12 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Droid","UnzipTool: "+unzip);
             if(!unzip.isEmpty()) {
                 String fakelib;
-                if(arch.startsWith("armv7")) fakelib="libv7a.so";
-                else if (arch.startsWith("armv8")||arch.startsWith("aarch64")) fakelib="libv8a.so";
+                //If we are on KitKat use shared build, otherwise static one
+                if(arch.startsWith("armeabi-v7")) {
+                    if(Build.VERSION.SDK_INT<21) fakelib="libarm7kk.so";
+                    else fakelib="libarm7.so";
+                }
+                else if(arch.startsWith("arm64")) fakelib="libarm64.so";
                 else fakelib="libx86.so";
                 Log.d("Droid","CMD: "+unzip+" -o "+path+fakelib+" -d "+path);
                 String res=runCmd(unzip+" -o "+path+fakelib+" -d "+path+"\nchmod 755 "+path+"pppwn",true);
@@ -205,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                     txtOut.append("Binary installation failed!"+EOL);
                 }
                 else if(res.contains("inflating")) {
-                    txtOut.append("Binary for "+arch+" successfully installed!"+EOL);
+                    txtOut.append("Binary "+fakelib+" for "+arch+" successfully installed!"+EOL);
                 }
             }
         }
@@ -257,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             String line="";
             String[] fws=getResources().getStringArray(R.array.fwValues);
             String fw=fws[spnFW.getSelectedItemPosition()];
-            // path=getApplicationInfo().nativeLibraryDir;
+            //path=getApplicationInfo().nativeLibraryDir;
             //if(!path.endsWith("/")) path+="/";
             //Log.d("Droid",path);
             String stage1=path+"stage1."+fw;
@@ -275,7 +280,8 @@ public class MainActivity extends AppCompatActivity {
                 DataOutputStream os=new DataOutputStream(p.getOutputStream());
                 os.writeBytes("/system/bin/ifconfig eth0 10.0.0.1 up 2>&1\n");
                 os.flush();
-                //os.writeBytes("export PATH=$PATH:"+path+"\nLD_LIBRARY_PATH=$LD_LIBRARY_PATH:"+path+" "); //LD_PRELOAD="+path+"libpcap.so.1 ");
+                //Leaving this line for compatibility with A4.4 shared build, and user custom builds
+                os.writeBytes("export PATH=$PATH:"+path+"\nLD_LIBRARY_PATH="+path+" "); //LD_PRELOAD="+path+"libpcap.so.1 ");
                 os.writeBytes(path+"pppwn -i "+selIface+" --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+" -a 2>&1\nexit\n");
                 os.flush();
                 BufferedReader in=new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -285,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                 in.close();
                 p.waitFor();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
             return null;
         }
