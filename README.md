@@ -34,9 +34,9 @@ Once you open the app for the first time, it recognizes your architecture and ex
 
 ```
 - libarm7kk.so	->	for 32bit armv7l, minimum sdk 19 (KitKat 4.4), libc shared build (cannot link static due to some ndk bugs)
-- libarm7	->	for 32bit armv7l/armv8l, minimum sdk 21 (Lollipop 5.0), static build
-- libarm64	->	for 64bit armv8a+, minimum sdk 21, static build
-- libx86	->	for 32bit x86 (compatible with 64bit x86), minimum sdk 21, static build
+- libarm7.so	->	for 32bit armv7l/armv8l, minimum sdk 21 (Lollipop 5.0), static build
+- libarm64.so	->	for 64bit armv8a+, minimum sdk 21, static build
+- libx86.so	->	for 32bit x86 (compatible with 64bit x86), minimum sdk 21, static build
 ```
 
 All of the binaries are compiled via the official android NDK r25c, the latest that supports android 4.4.
