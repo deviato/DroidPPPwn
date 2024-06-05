@@ -46,7 +46,8 @@ If you don't like these versions or they don't work well for you, you can just r
 **If you want to build it on your own**, I've forked the original xfangfang repository and modified its `CMakeLists.txt` to be able to compile for Android, both with NDK on your Linux machine or the Termux app directly on your device. The instructions are in the fork itself here [PPPwn_cpp_android](https://github.com/deviato/PPPwn_cpp_android).
 
 ## Known Bugs
-All previous bugs fixed
+- The app is not compatible with 64bit only systems (Pixel 7 pro, Pixel 8)
+This is due to the trick adopted to install the native binaries. The apk itself is built with both 32 and 64 bit support, but the native libraries are in fake libarmeabi (32bit) folder, in order to be extracted in the right place.
 
 ## Changelog
 ### 1.2.1
