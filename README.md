@@ -1,8 +1,9 @@
 # DroidPPPwn
 An android frontend that uses [PPPwn_cpp_android](https://github.com/deviato/PPPwn_cpp_android)
 
-- It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android, and stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
-- For firmwares 9.00, 10.00, 10.01, 11.00 `stage2.bin` is built from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can now load custom payloads like GoldHEN.
+- It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android and x86-android, plus stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
+- For firmwares 9.00, 9.60, 10.00, 10.01, 11.00 `stage2.bin` is built from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can now load custom payloads like GoldHEN.
+- For firmwares 9.03, 9.04, 10.50, 10.70, 10.71 `stage2.bin` is built from [LightningMods](https://github.com/LightningMods/PPPwn), compiled with `ps4-hen-vtx-pppwn` by Sistr0. These ones are experimental and not tested, because I have no console to test with.
 - For all the other firmwares `stage2.bin` is built from the original code of [PPPwn](https://github.com/TheOfficialFloW/PPPwn), so at the moment it's only a proof-of-concept that prints `PPPwned` on the PS4.
 - You can now use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
@@ -50,6 +51,20 @@ If you don't like these versions or they don't work well for you, you can just r
 This is due to the trick adopted to install the native binaries. The apk itself is built with both 32 and 64 bit support, but the native libraries are in fake libarmeabi (32bit) folder, in order to be extracted in the right place.
 
 ## Changelog
+### 1.2.2
+- Updated stage2.bin files to latest version, now you have GoldHen also for 9.60.
+- For the other systems, as of now, these are the included stage2.bin for each firmware:
+```
+- From 7.00 to 8.52     ->  PoC by EchoStretch
+- 9.00                  ->  GoldHen by Sistr0
+- 9.03 / 9.04           ->  LightningMods + ps4-hen-vtx payload by Sistr0 (NEEDS TESTING)
+- 9.50 / 9.51 / 9.60    ->  GoldHen by Sistr0 (maybe only 9.60 working?)
+- 10.00 / 10.01         ->  GoldHen by Sistr0
+- 10.50 / 10.70 / 10.71 ->  LightningMods + ps4-hen-vtx payload by Sistr0 (NEEDS TESTING)
+- 11.00                 ->  GoldHen by Sistr0
+```
+- As usual, you can always put your own stage1.bin and stage2.bin into the root folder of your internal or external storage (/storage/emulated/0 or whatever the symlink /sdcard refers to)
+
 ### 1.2.1
 - Changed the method for recognizing the device architecture, which was giving wrong results in some older systems
 - Added one more binary for 32bit `armv7`, now you have one for Android 4.4 built with shared libc, and one for `armv7l`/`armv8l` for Android 5.0+, static linked
