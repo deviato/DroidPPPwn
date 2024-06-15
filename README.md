@@ -3,7 +3,7 @@ An android frontend that uses [PPPwn_cpp_android](https://github.com/deviato/PPP
 
 - It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android and x86-android, plus stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
 - For firmwares 9.00, 9.60, 10.00, 10.01, 11.00 `stage2.bin` is built from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can now load custom payloads like GoldHEN.
-- For firmwares 9.03, 9.04, 10.50, 10.70, 10.71 `stage2.bin` is built from [LightningMods](https://github.com/LightningMods/PPPwn), compiled with `ps4-hen-vtx-pppwn` by Sistr0. These ones are experimental and not tested, because I have no console to test with.
+- For firmwares 9.03, 9.04, 10.50, 10.70, 10.71 `stage2.bin` is built from [LightningMods](https://github.com/LightningMods/PPPwn), compiled with `ps4-hen-vtx-pppwn` by Sistr0. These ones are experimental and not tested, as I have no console with that FWs to test on.
 - For all the other firmwares `stage2.bin` is built from the original code of [PPPwn](https://github.com/TheOfficialFloW/PPPwn), so at the moment it's only a proof-of-concept that prints `PPPwned` on the PS4.
 - You can now use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
