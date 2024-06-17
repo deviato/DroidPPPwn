@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtOut;
     private Button btnIface;
     private Spinner spnFW;
+    private CheckBox chkLinux;
     private ListView lvIface;
     private Process p;
     private AsyncExec ae;
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private String path="/data/data/it.deviato.droidpppwn/lib/";
     protected SharedPreferences settings;
     protected SharedPreferences.Editor editset;
-    protected int selFw;
+    protected int selFw,selPayload;
     protected String selIface;
     private static final String EOL=System.getProperty("line.separator");
 
@@ -73,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
         editset=settings.edit();
         selFw=settings.getInt("FW",0);
         selIface=settings.getString("IFACE","eth0");
+        selPayload=settings.getInt("PAYLOAD",0);
         main=findViewById(R.id.main);
         txtOut=findViewById(R.id.txtOutput);
         txtOut.setMovementMethod(new ScrollingMovementMethod());
         btnIface=findViewById(R.id.btnInterface);
         btnIface.setText(selIface);
+        chkLinux=findViewById(R.id.chkLinux);
         spnFW=findViewById(R.id.spnFirmware);
         ArrayAdapter<CharSequence> adpFW=ArrayAdapter.createFromResource(this,R.array.fwItems,android.R.layout.simple_list_item_1);
         adpFW.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -131,6 +136,14 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        chkLinux.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                selPayload=isChecked?1:0;
+                editset.putInt("PAYLOAD",selPayload);
+                editset.commit();
+            }
+        });
 
         final Switch btnStart=findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     ae.cancel(true);
                     p.destroy();
-                    txtOut.setText("-----[DroidPPPwn 1.2.2 by deviato]-----"+EOL);
+                    txtOut.setText("-----[DroidPPPwn 1.2.3 by deviato]-----"+EOL);
                     main.setBackgroundColor(Color.WHITE);
                 }
             }
@@ -267,6 +280,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Droid",path);
             String stage1=path+"stage1."+fw;
             String stage2=path+"stage2."+fw;
+            //Linux special case to extend in future
+            if(fw.equals("1100")&&selPayload==1) stage2=path+"linux.1100";
             //Prefer custom stage1.bin and/or stage2.bin from /sdcard/ if found
             File file=new File("/sdcard/stage1.bin");
             if(file.exists()) stage1="/sdcard/stage1.bin";

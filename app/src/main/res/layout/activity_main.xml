@@ -16,6 +16,7 @@
         android:background="#D00000"
         android:fontFamily="casual"
         android:gravity="center"
+        android:paddingRight="50dp"
         android:text="DroidPPPwn"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
@@ -83,22 +84,32 @@
         app:layout_constraintStart_toEndOf="@+id/txtInterface"
         app:layout_constraintTop_toBottomOf="@+id/txtFirmware" />
 
+    <CheckBox
+        android:id="@+id/chkLinux"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="66dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Linux (FW 11.00 only)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInterface" />
+
     <Switch
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginLeft="66dp"
+        android:layout_marginTop="75dp"
         android:elegantTextHeight="false"
-        android:gravity="center"
         android:scaleX="1.8"
         android:scaleY="1.8"
         android:switchMinWidth="70dp"
         android:switchPadding="5dp"
         android:text="Start"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spnFirmware" />
+        app:layout_constraintStart_toEndOf="@+id/chkLinux"
+        app:layout_constraintTop_toBottomOf="@+id/txtFirmware" />
 
     <TextView
         android:id="@+id/txtOutput"
@@ -112,7 +123,7 @@
         android:gravity="bottom"
         android:padding="10dp"
         android:scrollbars="vertical"
-        android:text="-----[DroidPPPwn 1.2.2 by deviato]-----\n"
+        android:text="-----[DroidPPPwn 1.2.3 by deviato]-----\n"
         android:textColor="#0a9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -51,6 +51,11 @@ If you don't like these versions or they don't work well for you, you can just r
 This is due to the trick adopted to install the native binaries. The apk itself is built with both 32 and 64 bit support, but the native libraries are in fake libarmeabi (32bit) folder, in order to be extracted in the right place.
 
 ## Changelog
+### 1.2.3
+- Recompiled all binaries updating them to the latest version of pppwn_cpp, which enables some previously non-working PS4-slim.
+- Added support for Linux payload for the 11.00 firmware, through a checkbox that allows you to switch between the standard GoldHen stage2 and the LightningMods version.
+I preferred to keep the standard payload loader and not incorporate ps4-linux payload into stage2.bin, to leave the choice of 2gb, 3gb, 4gb versions to you. If you want to replace the payload with your own, with preferred hardcoded ps4-linux loader, overwrite the /data/data/it.deviato.droidpppwn/lib/linux.1100 file with your own stage2.
+
 ### 1.2.2
 - Updated stage2.bin files to latest version, now you have GoldHen also for 9.60.
 - For the other systems, as of now, these are the included stage2.bin for each firmware:
