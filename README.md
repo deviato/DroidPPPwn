@@ -2,10 +2,10 @@
 An android frontend that uses [PPPwn_cpp_android](https://github.com/deviato/PPPwn_cpp_android)
 
 - It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android and x86-android, plus stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
-- For firmwares 9.00, 9.60, 10.00, 10.01, 11.00 `stage2.bin` is built from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can now load custom payloads like GoldHEN.
-- For firmwares 9.03, 9.04, 10.50, 10.70, 10.71 `stage2.bin` is built from [LightningMods](https://github.com/LightningMods/PPPwn), compiled with `ps4-hen-vtx-pppwn` by Sistr0. These ones are experimental and not tested, as I have no console with that FWs to test on.
-- For all the other firmwares `stage2.bin` is built from the original code of [PPPwn](https://github.com/TheOfficialFloW/PPPwn), so at the moment it's only a proof-of-concept that prints `PPPwned` on the PS4.
-- You can now use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
+- For firmwares 9.00, 9.60, 10.00, 10.01, 11.00 `stage2.bin` is taken from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can load GoldHEN payload.
+- For firmwares 7.5x, 8.0x, 8.5x, 9.0x, 10.50, 10.7x `stage2.bin` is taken from [EchoStretch](https://github.com/EchoStretch/ps4-hen-vtx/) `ps4-hen-vtx-pppwn`, i.e. you can load PS4HEN payload.
+- For firmwares 7.0x `stage2.bin` is built from the original code of [PPPwn](https://github.com/TheOfficialFloW/PPPwn), so at the moment it's only a proof-of-concept that prints `PPPwned` on the PS4.
+- You can use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
 ## Requirements
 - An Android device with **`root access`**, minimum version Android KitKat 4.4
@@ -34,10 +34,11 @@ In order to obtain execution permission I had to trick the Android Studio packag
 Once you open the app for the first time, it recognizes your architecture and extracts the appropriate binary. The four files and related architectures are:
 
 ```
-- libarm7kk.so	->	for 32bit armv7l, minimum sdk 19 (KitKat 4.4), libc shared build (cannot link static due to some ndk bugs)
-- libarm7.so	->	for 32bit armv7l/armv8l, minimum sdk 21 (Lollipop 5.0), static build
-- libarm64.so	->	for 64bit armv8a+, minimum sdk 21, static build
-- libx86.so	->	for 32bit x86 (compatible with 64bit x86), minimum sdk 21, static build
+- armeabi-v7a/libpppwnkk.so	->	for 32bit armv7l, minimum sdk 19 (KitKat 4.4), libc shared build (cannot link static due to some ndk bugs)
+- armeabi-v7a/libpppwn.so	->	for 32bit armv7l/armv8l, minimum sdk 21 (Lollipop 5.0), static build
+- arm64-v8a/libpppwn.so		->	for 64bit armv8a+, minimum sdk 21, static build
+- x86/libpppwn.so		->	for 32bit x86 minimum sdk 21, static build
+- x86_64/libpppwn.so		->	for 64bit x86 minimum sdk 21, static build
 ```
 
 All of the binaries are compiled via the official android NDK r25c, the latest that supports android 4.4.
@@ -47,15 +48,19 @@ If you don't like these versions or they don't work well for you, you can just r
 **If you want to build it on your own**, I've forked the original xfangfang repository and modified its `CMakeLists.txt` to be able to compile for Android, both with NDK on your Linux machine or the Termux app directly on your device. The instructions are in the fork itself here [PPPwn_cpp_android](https://github.com/deviato/PPPwn_cpp_android).
 
 ## Known Bugs
-- The app is not compatible with 64bit only systems (Pixel 7 pro, Pixel 8)
-This is due to the trick adopted to install the native binaries. The apk itself is built with both 32 and 64 bit support, but the native libraries are in fake libarmeabi (32bit) folder, in order to be extracted in the right place.
+- All previous bugs fixed
 
 ## Changelog
+### 1.3
+- Added a new pppwn binary build for Android x86_64 architectures.
+- Added support to PS4HEN for all the remaining firmwares. Now only the 7.0x versions remain without payload support, but only with the basic PoC.
+- Added two options to GUI to set optional parameters -nw (don't wait one more PADI before starting) and -rs (use CPU for more precise sleep time) for pppwn.
+- Fixed wrong build for x86 32bit.
+- Unified the installer with a single apk package for both standard and 64-bit-only systems.
 ### 1.2.3
 - Recompiled all binaries updating them to the latest version of pppwn_cpp, which enables some previously non-working PS4-slim.
 - Added support for Linux payload for the 11.00 firmware, through a checkbox that allows you to switch between the standard GoldHen stage2 and the LightningMods version.
 I preferred to keep the standard payload loader and not incorporate ps4-linux payload into stage2.bin, to leave the choice of 2gb, 3gb, 4gb versions to you. If you want to replace the payload with your own, with preferred hardcoded ps4-linux loader, overwrite the /data/data/it.deviato.droidpppwn/lib/linux.1100 file with your own stage2.
-
 ### 1.2.2
 - Updated stage2.bin files to latest version, now you have GoldHen also for 9.60.
 - For the other systems, as of now, these are the included stage2.bin for each firmware:
@@ -69,7 +74,6 @@ I preferred to keep the standard payload loader and not incorporate ps4-linux pa
 - 11.00                 ->  GoldHen by Sistr0
 ```
 - As usual, you can always put your own stage1.bin and stage2.bin into the root folder of your internal or external storage (/storage/emulated/0 or whatever the symlink /sdcard refers to)
-
 ### 1.2.1
 - Changed the method for recognizing the device architecture, which was giving wrong results in some older systems
 - Added one more binary for 32bit `armv7`, now you have one for Android 4.4 built with shared libc, and one for `armv7l`/`armv8l` for Android 5.0+, static linked

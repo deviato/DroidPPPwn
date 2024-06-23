@@ -42,17 +42,18 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtOut;
     private Button btnIface;
     private Spinner spnFW;
-    private CheckBox chkLinux;
+    private CheckBox chkNw,chkRs,chkLinux;
     private ListView lvIface;
     private Process p;
     private AsyncExec ae;
     private boolean isRoot;
     private String arch;
-    private String path="/data/data/it.deviato.droidpppwn/lib/";
+    private String path; //="/data/data/it.deviato.droidpppwn/lib/";
     protected SharedPreferences settings;
     protected SharedPreferences.Editor editset;
     protected int selFw,selPayload;
     protected String selIface;
+    protected Boolean selNw,selRs;
     private static final String EOL=System.getProperty("line.separator");
 
     @Override
@@ -60,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main),(v,insets) -> {
+            Insets systemBars=insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left,systemBars.top,systemBars.right,systemBars.bottom);
             return insets;
         });
         isRoot=!runCmd("which su",false).isEmpty();
         arch=runCmd("getprop ro.product.cpu.abi",false).trim();
+        path=getApplicationInfo().nativeLibraryDir;
+        if(!path.endsWith("/")) path+="/";
         final TextView txtArch=findViewById(R.id.txtArch);
         txtArch.setText("["+arch+"]");
         //Log.d("Droid","CPUABI:"+Build.CPU_ABI);
@@ -77,12 +80,19 @@ public class MainActivity extends AppCompatActivity {
         selFw=settings.getInt("FW",0);
         selIface=settings.getString("IFACE","eth0");
         selPayload=settings.getInt("PAYLOAD",0);
+        selNw=settings.getBoolean("NW",false);
+        selRs=settings.getBoolean("RS",false);
         main=findViewById(R.id.main);
         txtOut=findViewById(R.id.txtOutput);
         txtOut.setMovementMethod(new ScrollingMovementMethod());
         btnIface=findViewById(R.id.btnInterface);
         btnIface.setText(selIface);
+        chkNw=findViewById(R.id.chkNw);
+        chkNw.setChecked(selNw);
+        chkRs=findViewById(R.id.chkRs);
+        chkRs.setChecked(selRs);
         chkLinux=findViewById(R.id.chkLinux);
+        chkLinux.setChecked(selPayload==1);
         spnFW=findViewById(R.id.spnFirmware);
         ArrayAdapter<CharSequence> adpFW=ArrayAdapter.createFromResource(this,R.array.fwItems,android.R.layout.simple_list_item_1);
         adpFW.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
@@ -144,6 +154,22 @@ public class MainActivity extends AppCompatActivity {
                 editset.commit();
             }
         });
+        chkNw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                selNw=isChecked;
+                editset.putBoolean("NW",selNw);
+                editset.commit();
+            }
+        });
+        chkRs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                selRs=isChecked;
+                editset.putBoolean("RS",selRs);
+                editset.commit();
+            }
+        });
 
         final Switch btnStart=findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     ae.cancel(true);
                     p.destroy();
-                    txtOut.setText("-----[DroidPPPwn 1.2.3 by deviato]-----"+EOL);
+                    txtOut.setText("-----[DroidPPPwn 1.3 by deviato]-----"+EOL);
                     main.setBackgroundColor(Color.WHITE);
                 }
             }
@@ -194,28 +220,30 @@ public class MainActivity extends AppCompatActivity {
     };
     private void checkInstall() {
         //Check if already installed
-        File f=new File("/data/data/it.deviato.droidpppwn/lib/pppwn");
+        //File f=new File("/data/data/it.deviato.droidpppwn/lib/pppwn");
+        File f=new File(path+"pppwn");
         if(!f.exists()) {
             //Check if system have unzip or busybox
             String unzip=runCmd("which unzip",false).trim();
             if(unzip.isEmpty()||unzip.contains("not found")) {
-                unzip=runCmd("busybox", false).trim();
-                if(unzip.isEmpty()) {
+                unzip=runCmd("busybox", true).trim();
+                if(unzip.isEmpty()||unzip.contains("not found")) {
                     Log.d("Droid","Error: no unzip found");
-                    txtOut.append("Unzip not found. Please install busybox first!"+EOL);
+                    txtOut.append("Unzip not found. Please install BusyBox first!"+EOL);
                 }
                 else unzip="busybox unzip";
             }
             Log.d("Droid","UnzipTool: "+unzip);
             if(!unzip.isEmpty()) {
-                String fakelib;
+                String fakelib="libpppwn.so";
                 //If we are on KitKat use shared build, otherwise static one
-                if(arch.startsWith("armeabi-v7")) {
+                if(arch.startsWith("armeabi-v7")&&Build.VERSION.SDK_INT<21) fakelib="libpppwnkk.so";
+                /*if(arch.startsWith("armeabi-v7")) {
                     if(Build.VERSION.SDK_INT<21) fakelib="libarm7kk.so";
                     else fakelib="libarm7.so";
                 }
                 else if(arch.startsWith("arm64")) fakelib="libarm64.so";
-                else fakelib="libx86.so";
+                else fakelib="libx86.so";*/
                 Log.d("Droid","CMD: "+unzip+" -o "+path+fakelib+" -d "+path);
                 String res=runCmd(unzip+" -o "+path+fakelib+" -d "+path+"\nchmod 755 "+path+"pppwn",true);
                 Log.d("Droid",res);
@@ -278,6 +306,9 @@ public class MainActivity extends AppCompatActivity {
             //path=getApplicationInfo().nativeLibraryDir;
             //if(!path.endsWith("/")) path+="/";
             //Log.d("Droid",path);
+            String opts="";
+            if(selNw) opts+=" -nw";
+            if(selRs) opts+=" -rs";
             String stage1=path+"stage1."+fw;
             String stage2=path+"stage2."+fw;
             //Linux special case to extend in future
@@ -297,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                 os.flush();
                 //Leaving this line for compatibility with A4.4 shared build, and user custom builds
                 os.writeBytes("export PATH=$PATH:"+path+"\nLD_LIBRARY_PATH="+path+" "); //LD_PRELOAD="+path+"libpcap.so.1 ");
-                os.writeBytes(path+"pppwn -i "+selIface+" --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+" -a 2>&1\nexit\n");
+                os.writeBytes(path+"pppwn -i "+selIface+" --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+opts+" -a 2>&1\nexit\n");
                 os.flush();
                 BufferedReader in=new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while((line=in.readLine())!=null) {
