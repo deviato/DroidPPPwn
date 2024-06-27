@@ -3,8 +3,7 @@
     <string-array name="fwItems">
         <item>7.00 / 7.01 / 7.02</item>
         <item>7.50 / 7.51 / 7.55</item>
-        <item>8.00 / 8.01</item>
-        <item>8.03</item>
+        <item>8.00 / 8.01 / 8.03</item>
         <item>8.50 / 8.52</item>
         <item>9.00</item>
         <item>9.03 / 9.04</item>
@@ -18,7 +17,6 @@
         <item>700</item>
         <item>750</item>
         <item>800</item>
-        <item>803</item>
         <item>850</item>
         <item>900</item>
         <item>903</item>
