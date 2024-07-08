@@ -51,7 +51,7 @@ If you don't like these versions or they don't work well for you, you can just r
 
 ## Changelog
 ### 1.3.1
-- Updated all stage2.bin files for ps4-hen-vtx payload to the latest version of EchoStretch (PPPwn-1.0309).
+- Updated all stage2.bin files for ps4-hen-vtx payload to the latest version of EchoStretch (PPPwn-1.0310).
 - Hen support has now been added for 7.0x firmwares too.
 ### 1.3
 - Added a new pppwn binary build for Android x86_64 architectures.
