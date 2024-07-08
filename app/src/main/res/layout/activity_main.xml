@@ -151,7 +151,7 @@
         android:gravity="bottom"
         android:padding="10dp"
         android:scrollbars="vertical"
-        android:text="-----[DroidPPPwn 1.3 by deviato]-----\n"
+        android:text="-----[DroidPPPwn 1.3.1 by deviato]-----\n"
         android:textColor="#0a9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

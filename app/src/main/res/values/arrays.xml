@@ -9,8 +9,7 @@
         <item>9.03 / 9.04</item>
         <item>9.50 / 9.51 / 9.60</item>
         <item>10.00 / 10.01</item>
-        <item>10.50</item>
-        <item>10.70 / 10.71</item>
+        <item>10.50 / 10.70 / 10.71</item>
         <item>11.00</item>
     </string-array>
     <string-array name="fwValues">
@@ -23,7 +22,6 @@
         <item>950</item>
         <item>1000</item>
         <item>1050</item>
-        <item>1070</item>
         <item>1100</item>
     </string-array>
 </resources>

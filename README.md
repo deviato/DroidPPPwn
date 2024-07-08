@@ -3,8 +3,7 @@ An android frontend that uses [PPPwn_cpp_android](https://github.com/deviato/PPP
 
 - It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android and x86-android, plus stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
 - For firmwares 9.00, 9.60, 10.00, 10.01, 11.00 `stage2.bin` is taken from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can load GoldHEN payload.
-- For firmwares 7.5x, 8.0x, 8.5x, 9.0x, 10.50, 10.7x `stage2.bin` is taken from [EchoStretch](https://github.com/EchoStretch/ps4-hen-vtx/) `ps4-hen-vtx-pppwn`, i.e. you can load PS4HEN payload.
-- For firmwares 7.0x `stage2.bin` is built from the original code of [PPPwn](https://github.com/TheOfficialFloW/PPPwn), so at the moment it's only a proof-of-concept that prints `PPPwned` on the PS4.
+- For firmwares 7.0x, 7.5x, 8.0x, 8.5x, 9.0x, 10.50, 10.7x `stage2.bin` is taken from [EchoStretch](https://github.com/EchoStretch/ps4-hen-vtx/) `ps4-hen-vtx-pppwn`, i.e. you can load PS4HEN payload.
 - You can use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
 ## Requirements
@@ -51,6 +50,9 @@ If you don't like these versions or they don't work well for you, you can just r
 - All previous bugs fixed
 
 ## Changelog
+### 1.3.1
+- Updated all stage2.bin files for ps4-hen-vtx payload to the latest version of EchoStretch (PPPwn-1.0309).
+- Hen support has now been added for 7.0x firmwares too.
 ### 1.3
 - Added a new pppwn binary build for Android x86_64 architectures.
 - Added support to PS4HEN for all the remaining firmwares. Now only the 7.0x versions remain without payload support, but only with the basic PoC.

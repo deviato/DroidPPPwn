@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     ae.cancel(true);
                     p.destroy();
-                    txtOut.setText("-----[DroidPPPwn 1.3 by deviato]-----"+EOL);
+                    txtOut.setText("-----[DroidPPPwn 1.3.1 by deviato]-----"+EOL);
                     main.setBackgroundColor(Color.WHITE);
                 }
             }
