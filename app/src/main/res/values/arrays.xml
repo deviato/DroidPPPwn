@@ -26,8 +26,17 @@
         <item>1050</item>
         <item>1100</item>
     </string-array>
-</resources>
-<!--
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+</resources><!--
 <item name="700">7.00</item>
 <item name="701">7.01</item>
 <item name="702">7.02</item>

@@ -1,7 +1,8 @@
 package it.deviato.droidpppwn;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import static it.deviato.droidpppwn.App.*;
+
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -39,25 +41,21 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ConstraintLayout main;
-    private TextView txtOut;
+    protected static TextView txtOut;
+    private ImageButton btnSettings;
     private Button btnIface;
     private Spinner spnFW;
-    private CheckBox chkNw,chkRs,chkLinux;
+    private Switch btnStart;
+    private CheckBox chkLinux;
     private ListView lvIface;
-    private Process p;
-    private AsyncExec ae;
+    protected static Process p;
+    protected static AsyncExec ae;
     private boolean isRoot;
     private String arch;
-    private String path; //="/data/data/it.deviato.droidpppwn/lib/";
-    protected SharedPreferences settings;
-    protected SharedPreferences.Editor editset;
-    protected int selFw,selPayload;
-    protected String selIface;
-    protected Boolean selNw,selRs;
-    private static final String EOL=System.getProperty("line.separator");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Log.d("Droid","-Main-OnCreate");
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -68,37 +66,30 @@ public class MainActivity extends AppCompatActivity {
         });
         isRoot=!runCmd("which su",false).isEmpty();
         arch=runCmd("getprop ro.product.cpu.abi",false).trim();
-        path=getApplicationInfo().nativeLibraryDir;
-        if(!path.endsWith("/")) path+="/";
         final TextView txtArch=findViewById(R.id.txtArch);
         txtArch.setText("["+arch+"]");
         //Log.d("Droid","CPUABI:"+Build.CPU_ABI);
         //Log.d("Droid","PROPABI:"+arch);
         //Log.d("Droid", "OSARCH:"+System.getProperty("os.arch"));
-        settings=this.getPreferences(Context.MODE_PRIVATE);
-        editset=settings.edit();
-        selFw=settings.getInt("FW",0);
-        selIface=settings.getString("IFACE","eth0");
-        selPayload=settings.getInt("PAYLOAD",0);
-        selNw=settings.getBoolean("NW",false);
-        selRs=settings.getBoolean("RS",false);
+
         main=findViewById(R.id.main);
         txtOut=findViewById(R.id.txtOutput);
         txtOut.setMovementMethod(new ScrollingMovementMethod());
+        btnSettings=findViewById(R.id.btnSettings);
         btnIface=findViewById(R.id.btnInterface);
         btnIface.setText(selIface);
-        chkNw=findViewById(R.id.chkNw);
-        chkNw.setChecked(selNw);
-        chkRs=findViewById(R.id.chkRs);
-        chkRs.setChecked(selRs);
         chkLinux=findViewById(R.id.chkLinux);
         chkLinux.setChecked(selPayload==1);
         spnFW=findViewById(R.id.spnFirmware);
+        btnStart=findViewById(R.id.btnStart);
         ArrayAdapter<CharSequence> adpFW=ArrayAdapter.createFromResource(this,R.array.fwItems,android.R.layout.simple_list_item_1);
         adpFW.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnFW.setAdapter(adpFW);
         spnFW.setSelection(selFw);
         lvIface=findViewById(R.id.lvIface);
+        if(!isRunning) PPPwnService.startstopService();
+        if(autoRun) txtOut.append(getString(R.string.run_service_msg));
+        else txtOut.append(getString(R.string.run_manual_msg));
         lvIface.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -139,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         spnFW.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent,View view,int pos,long id) {
+                selFw=pos;
                 editset.putInt("FW",pos);
                 editset.commit();
             }
@@ -154,24 +146,15 @@ public class MainActivity extends AppCompatActivity {
                 editset.commit();
             }
         });
-        chkNw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                selNw=isChecked;
-                editset.putBoolean("NW",selNw);
-                editset.commit();
-            }
-        });
-        chkRs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                selRs=isChecked;
-                editset.putBoolean("RS",selRs);
-                editset.commit();
+            public void onClick(View v) {
+                Intent settingsIntent=new Intent(getApplicationContext(),SettingsActivity.class);
+                startActivity(settingsIntent);
             }
         });
 
-        final Switch btnStart=findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,16 +167,17 @@ public class MainActivity extends AppCompatActivity {
                     else btnStart.setChecked(false);
                 }
                 else {
-                    ae.cancel(true);
-                    p.destroy();
-                    txtOut.setText("-----[DroidPPPwn 1.3.1 by deviato]-----"+EOL);
+                    killExploit();
+                    txtOut.setText(getString(R.string.welcome_msg));
                     main.setBackgroundColor(Color.WHITE);
                 }
             }
         });
     }
+
     @Override
     public void onResume(){
+        //Log.d("Droid","-Main-OnResume");
         super.onResume();
         if(checkSuMsg()) {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -203,10 +187,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 500);
         }
+        //Disable Start Button if service is running
+        if(autoRun) {
+            btnStart.setChecked(false);
+            btnStart.setEnabled(false);
+        }
+        else {
+            btnStart.setEnabled(true);
+        }
     }
     @Override
     protected void onDestroy() {
+        Log.d("Droid","-Main-OnDestroy");
         super.onDestroy();
+        killExploit();
+    }
+
+    protected static void killExploit() {
+        if(ae!=null) ae.cancel(true);
         if(p!=null)  p.destroy();
     }
 
@@ -244,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(arch.startsWith("arm64")) fakelib="libarm64.so";
                 else fakelib="libx86.so";*/
-                Log.d("Droid","CMD: "+unzip+" -o "+path+fakelib+" -d "+path);
+                //Log.d("Droid","CMD: "+unzip+" -o "+path+fakelib+" -d "+path);
                 String res=runCmd(unzip+" -o "+path+fakelib+" -d "+path+"\nchmod 755 "+path+"pppwn",true);
-                Log.d("Droid",res);
+                //Log.d("Droid",res);
                 if(res.contains("couldn't")) {
                     txtOut.append("Binary installation failed!"+EOL);
                 }
@@ -256,27 +254,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    /*public void copyRes(String res,String dst) {
-        InputStream in=getResources().openRawResource(getResources().getIdentifier(res,"raw",getPackageName()));
-        try {
-            //InputStream in=getAssets().open(res,"UTF-8");
-            OutputStream out=new FileOutputStream("/data/local/tmp/"+dst);
-            try {
-                // Transfer bytes from in to out
-                byte[] buf=new byte[1024];
-                int len;
-                while ((len=in.read(buf))>0) {
-                    out.write(buf,0,len);
-                }
-            } finally {
-                out.close();
-                in.close();
-            }
-        } catch(Exception e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-    private String runCmd(String cmd,boolean su) {
+
+    protected static String runCmd(String cmd,boolean su) {
         String line;
         StringBuilder out=new StringBuilder();
         try {
@@ -297,38 +276,23 @@ public class MainActivity extends AppCompatActivity {
         }
         return out.toString();
     }
-    private class AsyncExec extends AsyncTask<String,Void,String> {
+    protected class AsyncExec extends AsyncTask<String,Void,String> {
         @Override
         protected String doInBackground(String... strings) {
             String line="";
-            String[] fws=getResources().getStringArray(R.array.fwValues);
-            String fw=fws[spnFW.getSelectedItemPosition()];
-            //path=getApplicationInfo().nativeLibraryDir;
-            //if(!path.endsWith("/")) path+="/";
-            //Log.d("Droid",path);
-            String opts="";
-            if(selNw) opts+=" -nw";
-            if(selRs) opts+=" -rs";
-            String stage1=path+"stage1."+fw;
-            String stage2=path+"stage2."+fw;
-            //Linux special case to extend in future
-            if(fw.equals("1100")&&selPayload==1) stage2=path+"linux.1100";
-            //Prefer custom stage1.bin and/or stage2.bin from /sdcard/ if found
-            File file=new File("/sdcard/stage1.bin");
-            if(file.exists()) stage1="/sdcard/stage1.bin";
-            file=new File("/sdcard/stage2.bin");
-            if(file.exists()) stage2="/sdcard/stage2.bin";
 
             try {
                 //Log.d("Droid","Attempting to run: "+path+"pppwn");
+                buildPPPString();
                 p=Runtime.getRuntime().exec("su");
                 //p=Runtime.getRuntime().exec("su -c ping www.google.it");
                 DataOutputStream os=new DataOutputStream(p.getOutputStream());
-                os.writeBytes("/system/bin/ifconfig eth0 10.0.0.1 up 2>&1\n");
+                /*os.writeBytes("/system/bin/ifconfig eth0 10.0.0.1 up 2>&1\n");
                 os.flush();
                 //Leaving this line for compatibility with A4.4 shared build, and user custom builds
                 os.writeBytes("export PATH=$PATH:"+path+"\nLD_LIBRARY_PATH="+path+" "); //LD_PRELOAD="+path+"libpcap.so.1 ");
-                os.writeBytes(path+"pppwn -i "+selIface+" --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+opts+" -a 2>&1\nexit\n");
+                os.writeBytes(path+"pppwn -i "+selIface+" --fw "+fw+" --stage1 "+stage1+" --stage2 "+stage2+opts+" -a 2>&1\nexit\n");*/
+                os.writeBytes(pppstr);
                 os.flush();
                 BufferedReader in=new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while((line=in.readLine())!=null) {

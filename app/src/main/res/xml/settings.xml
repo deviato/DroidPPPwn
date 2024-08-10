@@ -1,0 +1,31 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="ADVANCED OPTIONS" app:iconSpaceReserved="false">
+
+        <CheckBoxPreference
+            app:key="NW"
+            app:title="No Wait PADI"
+            app:summary="Don't wait one more PADI before starting"
+            app:iconSpaceReserved="false"/>
+        <CheckBoxPreference
+            app:key="RS"
+            app:title="Real Sleep"
+            app:summary="Use CPU for more precise sleep time"
+            app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="SERVICE CONFIGURATION" app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            app:key="ARUN"
+            app:title="Auto Run in background"
+            app:summary="Automatic start at boot as a background service"
+            app:iconSpaceReserved="false"/>
+
+        <SwitchPreferenceCompat
+            app:dependency="ARUN"
+            app:key="ASHUT"
+            app:title="Auto Shutdown"
+            app:summary="Automatic device poweroff after successful exploit"
+            app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

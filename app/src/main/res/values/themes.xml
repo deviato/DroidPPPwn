@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.DroidPPPwn" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="colorPrimaryDark">@color/red</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 

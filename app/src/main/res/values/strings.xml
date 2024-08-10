@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">DroidPPPwn</string>
+    <string name="welcome_msg">-----[DroidPPPwn 1.4 by deviato]-----\n</string>
+    <string name="run_service_msg">\n- Running as a Service in background-\n  No output will be printed here, only on logcat.\n  To run the exploit manually, first stop the service.\n</string>
+    <string name="run_manual_msg">"\n- Ready for manually running -\n</string>
 </resources>

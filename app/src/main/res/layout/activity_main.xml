@@ -13,8 +13,9 @@
         android:id="@+id/txtTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:height="50dp"
-        android:background="#D00000"
+        android:background="@color/red"
         android:fontFamily="casual"
         android:gravity="center"
         android:paddingRight="50dp"
@@ -88,46 +89,23 @@
         app:layout_constraintTop_toBottomOf="@+id/txtFirmware" />
 
     <CheckBox
-        android:id="@+id/chkNw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="60dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="No Wait Padi"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtInterface" />
-
-    <CheckBox
-        android:id="@+id/chkRs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Real Sleep"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="@+id/txtFirmware"
-        app:layout_constraintTop_toBottomOf="@+id/txtInterface" />
-
-    <CheckBox
         android:id="@+id/chkLinux"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Linux (FW 11.00 only)"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkNw" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInterface" />
 
     <Switch
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="75dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="78dp"
         android:elegantTextHeight="false"
         android:scaleX="1.8"
         android:scaleY="1.8"
@@ -137,7 +115,7 @@
         android:textColor="@color/black"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/chkLinux"
-        app:layout_constraintTop_toBottomOf="@+id/chkRs" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInterface" />
 
     <TextView
         android:id="@+id/txtOutput"
@@ -151,7 +129,7 @@
         android:gravity="bottom"
         android:padding="10dp"
         android:scrollbars="vertical"
-        android:text="-----[DroidPPPwn 1.3.1 by deviato]-----\n"
+        android:text="@string/welcome_msg"
         android:textColor="#0a9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -166,5 +144,15 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/btnInterface"
         app:layout_constraintTop_toTopOf="@+id/btnInterface" />
+
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_menu_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

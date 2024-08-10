@@ -50,6 +50,9 @@ If you don't like these versions or they don't work well for you, you can just r
 - All previous bugs fixed
 
 ## Changelog
+### 1.4
+- Added an option to automatically run the exploit at start-up as a background service. You can also decide whether the device should be switched off automatically after the exploit has succeeded.
+- Cleaned up the code and fixed some minor bugs
 ### 1.3.1
 - Updated all stage2.bin files for ps4-hen-vtx payload to the latest version of EchoStretch (PPPwn-1.0310).
 - Hen support has now been added for 7.0x firmwares too.
