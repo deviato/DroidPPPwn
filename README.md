@@ -51,7 +51,7 @@ If you don't like these versions or they don't work well for you, you can just r
 
 ## Changelog
 ### 1.4
-- Added an option to automatically run the exploit at start-up as a background service. You can also decide whether the device should be switched off automatically after the exploit has succeeded.
+- Added an option to automatically run the exploit at start-up as a background service. You can also decide whether the device should be switched off automatically after the exploit has succeeded. NOTE: you may need to grant permission for the app to start automatically, depending on your Android system/device (e.g. for xiaomi go to Settings->Apps->Permissions->Autostart and check DroidPPPwn).
 - Cleaned up the code and fixed some minor bugs
 ### 1.3.1
 - Updated all stage2.bin files for ps4-hen-vtx payload to the latest version of EchoStretch (PPPwn-1.0310).
