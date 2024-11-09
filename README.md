@@ -2,8 +2,8 @@
 An android frontend that uses [PPPwn_cpp_android](https://github.com/deviato/PPPwn_cpp_android)
 
 - It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android and x86-android, plus stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
-- For firmwares 9.00, 9.60, 10.00, 10.01, 11.00 `stage2.bin` is taken from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can load GoldHEN payload.
-- For firmwares 7.0x, 7.5x, 8.0x, 8.5x, 9.0x, 10.50, 10.7x `stage2.bin` is taken from [EchoStretch](https://github.com/EchoStretch/ps4-hen-vtx/) `ps4-hen-vtx-pppwn`, i.e. you can load PS4HEN payload.
+- For firmwares 9.00, 9.60, 10.xx, 11.00 `stage2.bin` is taken from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can load GoldHEN payload.
+- For firmwares 7.0x, 7.5x, 8.0x, 8.5x, 9.03, 9.04 `stage2.bin` is taken from [EchoStretch](https://github.com/EchoStretch/ps4-hen-vtx/) `ps4-hen-vtx-pppwn`, i.e. you can load PS4HEN payload.
 - You can use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
 ## Requirements
