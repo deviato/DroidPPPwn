@@ -15,7 +15,7 @@ public class App extends Application {
     protected static SharedPreferences.Editor editset;
     protected static int selFw,selPayload;
     protected static String selIface,path,pppstr;  //OLDpath="/data/data/it.deviato.droidpppwn/lib/";
-    protected static Boolean selNw,selRs,autoRun,autoShut,isRunning=false;
+    protected static Boolean selNw,selRs,autoRun,autoShut,oldIp,isRunning=false;
     protected static final String EOL=System.getProperty("line.separator");
 
     @Override
@@ -34,6 +34,7 @@ public class App extends Application {
         selRs=settings.getBoolean("RS",false);
         autoRun=settings.getBoolean("ARUN",false);
         autoShut=settings.getBoolean("ASHUT",false);
+        oldIp=settings.getBoolean("OLD",false);
         Log.d("Droid","aRun:"+autoRun);
     }
 
@@ -46,6 +47,7 @@ public class App extends Application {
         String opts="";
         if(selNw) opts+=" -nw";
         if(selRs) opts+=" -rs";
+        if(oldIp) opts+=" -old";
         String stage1=path+"stage1."+fw;
         String stage2=path+"stage2."+fw;
         //Linux special case to extend in future

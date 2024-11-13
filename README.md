@@ -50,6 +50,10 @@ If you don't like these versions or they don't work well for you, you can just r
 - All previous bugs fixed
 
 ## Changelog
+### 1.4.1
+- Recompiled all binaries to the latest pppwn_cpp version 1.1.0.
+- Added an option to select the new "old-ipv6" (-old) parameter from pppwn_cpp (used only when the exploit fails).
+- Updated stage2.bin with new GoldHEN version for all 10.xx firmwares.
 ### 1.4
 - Added an option to automatically run the exploit at start-up as a background service. You can also decide whether the device should be switched off automatically after the exploit has succeeded. NOTE: you may need to grant permission for the app to start automatically, depending on your Android system/device (e.g. for xiaomi go to Settings->Apps->Permissions->Autostart and check DroidPPPwn).
 - Cleaned up the code and fixed some minor bugs

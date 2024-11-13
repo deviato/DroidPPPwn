@@ -11,6 +11,11 @@
             app:title="Real Sleep"
             app:summary="Use CPU for more precise sleep time"
             app:iconSpaceReserved="false"/>
+        <CheckBoxPreference
+            app:key="OLDIP"
+            app:title="Old IPv6"
+            app:summary="Use previous IPv6 address to exploit (use only when the exploit fails)"
+            app:iconSpaceReserved="false"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="SERVICE CONFIGURATION" app:iconSpaceReserved="false">

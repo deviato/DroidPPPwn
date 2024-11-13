@@ -52,6 +52,9 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
             case "ASHUT":
                 autoShut=pref.getBoolean(key,false);
                 break;
+            case "OLDIP":
+                oldIp=pref.getBoolean(key,false);
+                break;
         }
         //Log.d("Droid",key+":"+pref.getBoolean(key,true));
     }
