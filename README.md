@@ -2,8 +2,7 @@
 An android frontend that uses [PPPwn_cpp_android](https://github.com/deviato/PPPwn_cpp_android)
 
 - It includes a GUI, PPPwn_cpp binary specifically compiled for arm-android and x86-android, plus stage1.bin + stage2.bin for all supported firmwares (7.00-11.00).
-- For firmwares 9.00, 9.60, 10.xx, 11.00 `stage2.bin` is taken from [Sistr0](https://github.com/Sistr0/PPPwn) repository, i.e. you can load GoldHEN payload.
-- For firmwares 7.0x, 7.5x, 8.0x, 8.5x, 9.03, 9.04 `stage2.bin` is taken from [EchoStretch](https://github.com/EchoStretch/ps4-hen-vtx/) `ps4-hen-vtx-pppwn`, i.e. you can load PS4HEN payload.
+- For all supported firmware versions (7.00 to 11.00) the included `stage2.bin` is version 1.05 by [Sistr0](https://github.com/Sistr0/PPPwn), so you can simply put goldhen.bin in you USB drive to load GoldHEN payload.
 - You can use your own `stage2.bin` placing it to your external storage root folder through `adb push stage2.bin /sdcard/`
 
 ## Requirements
@@ -50,6 +49,8 @@ If you don't like these versions or they don't work well for you, you can just r
 - All previous bugs fixed
 
 ## Changelog
+### 1.4.2
+- Updated all stage2.bin files to version 1.05 for GoldHEN 2.4b18.5 support which enables the remaining PS4 7.xx, 8.xx and 9.xx firmwares.
 ### 1.4.1
 - Recompiled all binaries to the latest pppwn_cpp version 1.1.0.
 - Added an option to select the new "old-ipv6" (-old) parameter from pppwn_cpp (used only when the exploit fails).
