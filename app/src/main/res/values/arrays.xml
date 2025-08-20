@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="fwItems">
-        <item>7.00</item>
-        <item>7.01 / 7.02</item>
+        <item>7.00 / 7.01 / 7.02</item>
         <item>7.50 / 7.51 / 7.55</item>
         <item>8.00 / 8.01 / 8.03</item>
         <item>8.50 / 8.52</item>
         <item>9.00</item>
-        <item>9.03 / 9.04</item>
+        <item>9.03</item>
+        <item>9.04</item>
         <item>9.50 / 9.51 / 9.60</item>
         <item>10.00 / 10.01</item>
         <item>10.50 / 10.70 / 10.71</item>
@@ -15,12 +15,12 @@
     </string-array>
     <string-array name="fwValues">
         <item>700</item>
-        <item>701</item>
         <item>750</item>
         <item>800</item>
         <item>850</item>
         <item>900</item>
         <item>903</item>
+        <item>904</item>
         <item>950</item>
         <item>1000</item>
         <item>1050</item>

@@ -45,7 +45,7 @@ public class PPPwnService extends Service {
         NotificationManager ngr=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if(ngr!=null) ngr.notify(1337,notif);
         //startForeground(1337,notif);
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override

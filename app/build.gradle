@@ -4,20 +4,22 @@ plugins {
 
 android {
     namespace 'it.deviato.droidpppwn'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "it.deviato.droidpppwn"
         minSdk 19
+        //DO NOT upgrade to 35, otherwise ForegroundService cannot be started on BOOT_COMPLETED
         targetSdk 34
-        versionCode 9
-        versionName "1.4.1"
+        versionCode 10
+        versionName "1.4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

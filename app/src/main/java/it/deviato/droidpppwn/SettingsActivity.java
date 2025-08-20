@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences pref, @Nullable String key) {
+    public void onSharedPreferenceChanged(SharedPreferences pref,@Nullable String key) {
         switch(key) {
             case "NW":
                 selNw=pref.getBoolean(key,false);
@@ -62,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.settings, rootKey);
+            setPreferencesFromResource(R.xml.settings,rootKey);
         }
     }
 

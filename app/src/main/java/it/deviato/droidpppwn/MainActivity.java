@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         });
         chkLinux.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 selPayload=isChecked?1:0;
                 editset.putInt("PAYLOAD",selPayload);
                 editset.commit();
